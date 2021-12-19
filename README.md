@@ -22,8 +22,8 @@ IDE: Visual Studio 2019
 
 Home Page
 
-![App Screenshot](https://i.imgur.com/uN53Tg4.png)
+![App Screenshot](https://i.imgur.com/wGzVoWP.jpg)
 
 Admin Page
 
-![App Screenshot](https://i.imgur.com/QgPybYX.png)
+![App Screenshot](https://i.imgur.com/IQmn7Ep.png)
