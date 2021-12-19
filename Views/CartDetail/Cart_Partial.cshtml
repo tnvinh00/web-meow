@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Sky.Models.CartDetail>
+@using System.Globalization
 
 @{
     //Layout = "~/Views/Shared/_Layout3.cshtml";
     Layout = null;
+    CultureInfo culture = CultureInfo.CreateSpecificCulture("vi-VI");
 }
 
 <div class="dropdown-item text-center">
@@ -18,15 +20,22 @@
         </div>
         <div>
             <div class="text-truncate">
-                Am I a good boy? The reason I ask is because someone
-                told me that people say this to all dogs, even if they aren't good...
+                @item.Product.ProductName
             </div>
-            <div class="small text-gray-500">Chicken the Dog · 2w</div>
+            <div class="small text-gray-500">
+                @item.ProductQuantity
+                <i class="fas fa-times mx-2"></i>@(item.Product.ProductPrice.ToString("#,##0", culture))
+                <i class="fas fa-equals mx-2"></i>@((item.ProductQuantity * item.Product.ProductPrice).ToString("#,##0", culture))
+            </div>
         </div>
     </a>
 }
 
 <div class="text-center">
-    @ViewData["More"]
+    <b>@ViewData["More"]</b>
+</div>
+
+<div class="dropdown-item text-center">
+    Tổng tiền: <strong>@((ViewBag.Total).ToString("#,##0", culture))</strong>
 </div>
 

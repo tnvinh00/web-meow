@@ -43,7 +43,8 @@ namespace Sky.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewData["Mess"] = "Đã có lỗi!";
+                return View();
             }
             try
             {
@@ -93,7 +94,8 @@ namespace Sky.Controllers
         {
             if (id == null || quantity == null)
             {
-                return NotFound();
+                ViewData["Mess"] = "Đã có lỗi!";
+                return View();
             }
 
             try
@@ -128,6 +130,49 @@ namespace Sky.Controllers
                     _context.CartDetailDbSet.Add(cartde);
 
                     ViewData["Mess"] = "Thành công";
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                ViewData["Mess"] = "Thất bại";
+            }
+            return View();
+        }
+
+        [NoDirectAccess]
+        public async Task<IActionResult> AddtoCart3(string id, string quantity)
+        {
+            if (id == null || quantity == null)
+            {
+                ViewData["Mess"] = "Đã có lỗi!";
+                return View();
+            }
+
+            try
+            {
+                if (!_signInManager.IsSignedIn(User))
+                {
+                    ViewData["Mess"] = "Bạn cần đăng nhập để tiếp tục";
+
+                    return View();
+                }
+
+                var iduser = _userManager.GetUserId(User);
+
+                var cart = _context.CartDbSet.Where(c => c.UserId == iduser).ToList().FirstOrDefault();
+
+                var check = _context.CartDetailDbSet.Where(c => c.CartId == cart.CartId && c.ProductId == Convert.ToInt32(id)).FirstOrDefault();
+
+                if (check != null)
+                {
+                    check.ProductQuantity = Convert.ToInt32(quantity);
+
+                    ViewData["Mess"] = "Đã cập nhật số lượng";
+
+                    await _context.SaveChangesAsync();
+
+                    return View();
                 }
                 await _context.SaveChangesAsync();
             }
@@ -297,10 +342,10 @@ namespace Sky.Controllers
             switch (sortOrder)
             {
                 case "price":
-                    skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ProductPrice);
+                    skyAppDbContext = skyAppDbContext.OrderBy(s => s.ProductPrice);
                     break;
                 case "price_asc":
-                    skyAppDbContext = skyAppDbContext.OrderBy(s => s.ProductPrice);
+                    skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ProductPrice);
                     break;
                 case "view":
                     skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ViewCount);
@@ -337,10 +382,10 @@ namespace Sky.Controllers
             ViewData["Sort"] = sortOrder;
 
             //Lấy danh sách các loại type
-            ViewBag.ListType = _context.ProductDbSet.Where(p => p.Category.CategoryName == "Nu" && p.ProductStatus == true).Select(c => c.Type.TypeName).Distinct().ToList();
+            ViewBag.ListType = _context.ProductDbSet.Where(p => p.Category.CategoryName == "Nữ" && p.ProductStatus == true).Select(c => c.Type.TypeName).Distinct().ToList();
 
 
-            var skyAppDbContext = _context.ProductDbSet.Where(p => p.Category.CategoryName == "Nu" && p.ProductStatus == true);
+            var skyAppDbContext = _context.ProductDbSet.Where(p => p.Category.CategoryName == "Nữ" && p.ProductStatus == true);
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -361,10 +406,10 @@ namespace Sky.Controllers
             switch (sortOrder)
             {
                 case "price":
-                    skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ProductPrice);
+                    skyAppDbContext = skyAppDbContext.OrderBy(s => s.ProductPrice);
                     break;
                 case "price_asc":
-                    skyAppDbContext = skyAppDbContext.OrderBy(s => s.ProductPrice);
+                    skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ProductPrice);
                     break;
                 case "view":
                     skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ViewCount);
@@ -426,10 +471,10 @@ namespace Sky.Controllers
             switch (sortOrder)
             {
                 case "price":
-                    skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ProductPrice);
+                    skyAppDbContext = skyAppDbContext.OrderBy(s => s.ProductPrice);
                     break;
                 case "price_asc":
-                    skyAppDbContext = skyAppDbContext.OrderBy(s => s.ProductPrice);
+                    skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ProductPrice);
                     break;
                 case "view":
                     skyAppDbContext = skyAppDbContext.OrderByDescending(s => s.ViewCount);
@@ -475,6 +520,10 @@ namespace Sky.Controllers
                 return NotFound();
             }
             product.ViewCount += 1;
+
+            var favorite = await _context.FavoriteDetailDbSet.Where(a => a.ProductId == id).ToListAsync();
+
+            ViewData["FavoriteCount"] = favorite.Count();
 
             _context.Update(product);
             await _context.SaveChangesAsync();
