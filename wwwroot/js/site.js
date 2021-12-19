@@ -40,6 +40,7 @@ addtoCart2 = form => {
                     url_target: '_self',
                 });
                 $('#cartcount_clk').click();
+                $('#reload_cart').click();
             },
             error: function (err) {
                 console.log(err)

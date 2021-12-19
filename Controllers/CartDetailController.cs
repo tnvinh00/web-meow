@@ -49,6 +49,15 @@ namespace Sky.Controllers
 
             ViewData["CartCount"] = "Giỏ hàng có " + skyAppDbContext.Count() + " sản phẩm";
 
+            int total = 0;
+
+            foreach (var i in skyAppDbContext.ToList())
+            {
+                total += i.Product.ProductPrice * i.ProductQuantity;
+            }
+
+            ViewBag.Total = total;
+
             return View(await skyAppDbContext.Take(5).ToListAsync());
         }
 
@@ -138,7 +147,8 @@ namespace Sky.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                ViewData["Mess"] = "Đã có lỗi!";
+                return View();
             }
             var iduser = _userManager.GetUserId(User);
             try

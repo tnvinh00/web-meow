@@ -9,7 +9,7 @@
 }
 
 <h1 class="text-center mt-5 mb-4 text-primary">
-    <i class="fas fa-shopping-cart fa-lg mr-2"></i> 
+    <i class="fas fa-shopping-cart fa-lg mr-2"></i>
     Giỏ hàng
 </h1>
 
@@ -42,9 +42,9 @@
                         Thành tiền
                     </th>
                     <th>
-                        <a onclick="loadCart('@Url.Action("LoadCart","CartDetail", null, Context.Request.Scheme)')" 
+                        <a onclick="loadCart('@Url.Action("LoadCart","CartDetail", null, Context.Request.Scheme)')" id="reload_cart"
                            class="btn btn-sm btn-circle btn-primary text-white" data-toggle="tooltip" data-placement="top"
-                                  title="Tải lại giỏ hàng">
+                           title="Tải lại giỏ hàng">
                             <i class="fas fa-spin fa-sync-alt"></i>
                         </a>
                     </th>
@@ -69,23 +69,25 @@
                             </span>
                         </td>
                         <td class="align-middle">
-                            <div class="d-flex justify-content-center">
-                                <div class="input-group col-md-8 border rounded-lg py-1">
-                                    <button class="btn" onclick="this.parentNode.querySelector('input[type=number]').stepDown();
-                                    EditItem('@Url.Action("DesItem", "CartDetail", new { id = @item.ProductId }, Context.Request.Scheme)', 'Des Item')">
-                                        <i class="fas fa-minus fa-lg"></i>
-                                    </button>
+                            <form asp-action="AddtoCart3" asp-controller="Product" method="post" onsubmit="return addtoCart2(this)">
+                                <div class="d-flex justify-content-center">
+                                    <div class="input-group col-md-8 border p-0 m-0">
+                                        <button class="btn btn-sm border rounded-0" onclick="this.parentNode.querySelector('input[type=number]').stepDown();
+                                            EditItem('@Url.Action("DesItem", "CartDetail", new { id = @item.ProductId }, Context.Request.Scheme)', 'Des Item')">
+                                            <i class="fas fa-minus fa-lg"></i>
+                                        </button>
+                                        <input hidden name="id" value="@item.ProductId">
+                                        <input class="form-control-plaintext text-center form-control-sm border rounded-0" name="quantity" id="quantity" value=@item.ProductQuantity type="number" min="1" max="9"
+                                               onkeypress="if(this.value.length==1) return false;">
 
-                                    <input class="form-control-plaintext text-center" id="quantity" value=@item.ProductQuantity type="number" min="1"
-                                           onkeypress="if(this.value.length==3) return false;">
-
-                                    <button class="btn" onclick="this.parentNode.querySelector('input[type=number]').stepUp();
-                                    EditItem('@Url.Action("IncItem", "CartDetail", new { id = @item.ProductId }, Context.Request.Scheme)', 'Inc Item')">
-                                        <i class="fas fa-plus fa-lg"></i>
-                                    </button>
+                                        <button class="btn btn-sm border rounded-0" onclick="this.parentNode.querySelector('input[type=number]').stepUp();
+                                            EditItem('@Url.Action("IncItem", "CartDetail", new { id = @item.ProductId }, Context.Request.Scheme)', 'Inc Item')">
+                                            <i class="fas fa-plus fa-lg"></i>
+                                        </button>
+                                    </div>
+                                    <input type="submit" class="btn btn-sm border" value="✔" data-toggle="tooltip" data-placement="top" title="" data-original-title="Cập nhật giỏ hàng">
                                 </div>
-                            </div>
-
+                            </form>
                         </td>
                         <td class="align-middle">
                             @((@item.Product.ProductPrice).ToString("#,##0", culture))
