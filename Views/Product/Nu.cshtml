@@ -10,7 +10,7 @@
     <div class="mt-5 mb-2">
         <i class="fas fa-home"></i> /
         <a asp-action="Index" asp-controller="Home">Trang chủ</a> /
-        <a asp-action="Nam" asp-controller="Product">Nam</a> /
+        <a asp-action="Nu" asp-controller="Product">Nữ</a> /
         <label class="m-0">@ViewData["Type"]</label>
     </div>
 </div>
@@ -37,13 +37,13 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-sort m-0" aria-labelledby="dropSort">
-                        <a class="dropdown-item" asp-action="Nam" asp-route-sortOrder="price" asp-route-PageNumber="@ViewData["PageNumber"]"
+                        <a class="dropdown-item" asp-action="Nu" asp-route-sortOrder="price" asp-route-PageNumber="@ViewData["PageNumber"]"
                            asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-type="@ViewData["Type"]">Giá tăng dần</a>
-                        <a class="dropdown-item" asp-action="Nam" asp-route-sortOrder="price-asc" asp-route-PageNumber="@ViewData["PageNumber"]"
+                        <a class="dropdown-item" asp-action="Nu" asp-route-sortOrder="price-asc" asp-route-PageNumber="@ViewData["PageNumber"]"
                            asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-type="@ViewData["Type"]">Giá giảm dần</a>
-                        <a class="dropdown-item" asp-action="Nam" asp-route-sortOrder="view" asp-route-PageNumber="@ViewData["PageNumber"]"
+                        <a class="dropdown-item" asp-action="Nu" asp-route-sortOrder="view" asp-route-PageNumber="@ViewData["PageNumber"]"
                            asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-type="@ViewData["Type"]">Xem nhiều nhất</a>
-                        <a class="dropdown-item" asp-action="Nam" asp-route-sortOrder="new" asp-route-PageNumber="@ViewData["PageNumber"]"
+                        <a class="dropdown-item" asp-action="Nu" asp-route-sortOrder="new" asp-route-PageNumber="@ViewData["PageNumber"]"
                            asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-type="@ViewData["Type"]">Mới nhất</a>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
 
         </div>
         <div class="p-0">
-            <form asp-action="Nam" method="get" class="form-inline ">
+            <form asp-action="Nu" method="get" class="form-inline ">
                 <div class="form-group m-2">
                     <label class="input-group-prepend">Tìm kiếm </label>
                 </div>
