@@ -1,5 +1,5 @@
 
-# Project Framework .NET core MVC
+# Project 
 
 Website Fashion Sale with Admin Page use ASP.NET CORE 3 MVC 
 
